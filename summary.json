@@ -1,38 +1,38 @@
 {
     "total_logs": 500,
-    "INFO": 287,
-    "WARNING": 112,
-    "ERROR": 101,
-    "error_rate_percent": 20.2,
+    "INFO": 319,
+    "WARNING": 76,
+    "ERROR": 105,
+    "error_rate_percent": 21.0,
     "top_3_errors": [
         [
-            "Server crashed",
-            22
-        ],
-        [
             "Permission denied",
-            19
+            20
         ],
         [
-            "Timeout occurred",
-            18
+            "DB connection failed",
+            20
+        ],
+        [
+            "Server crashed",
+            19
         ]
     ],
     "top_3_modules": [
         [
-            "NETWORK",
-            90
+            "CACHE",
+            103
+        ],
+        [
+            "PAYMENTS",
+            85
         ],
         [
             "AUTH",
-            88
-        ],
-        [
-            "CACHE",
-            84
+            85
         ]
     ],
-    "avg_response_time_ms": 2567.51,
-    "slow_requests": 313,
-    "top_error": "Server crashed"
+    "avg_response_time_ms": 2516.8,
+    "slow_requests": 302,
+    "top_error": "Permission denied"
 }

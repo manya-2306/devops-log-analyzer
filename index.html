@@ -4,26 +4,48 @@
     <title>Log Analysis Dashboard</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Segoe UI", Arial, sans-serif;
             margin: 40px;
-            background: #f4f4f4;
+            background: #0d1117;
+            color: #f0f6fc;
         }
-        h1 { margin-bottom: 20px; }
+        h1 {
+            margin-bottom: 20px;
+            color: #58a6ff;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
         .card {
-            background: white;
+            background: #161b22;
             padding: 20px;
-            margin: 15px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(88, 166, 255, 0.15);
+            border: 1px solid #30363d;
+            transition: 0.2s;
         }
-        .title { font-weight: bold; }
+        .card:hover {
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.35);
+            transform: scale(1.02);
+        }
+        .title {
+            font-weight: bold;
+            color: #8b949e;
+        }
+        .value {
+            font-size: 1.4rem;
+            margin-top: 5px;
+            color: #c9d1d9;
+        }
     </style>
 </head>
 <body>
 
 <h1>📊 Log Analysis Dashboard</h1>
 
-<div id="dashboard">Loading...</div>
+<div id="dashboard" class="container">Loading...</div>
 
 <script>
 async function loadSummary() {
@@ -31,15 +53,24 @@ async function loadSummary() {
     const data = await res.json();
 
     document.getElementById("dashboard").innerHTML = `
-        <div class='card'><span class='title'>Total Logs:</span> ${data.total_logs}</div>
-        <div class='card'><span class='title'>Info:</span> ${data.INFO}</div>
-        <div class='card'><span class='title'>Warnings:</span> ${data.WARNING}</div>
-        <div class='card'><span class='title'>Errors:</span> ${data.ERROR}</div>
-        <div class='card'><span class='title'>Error Rate:</span> ${data.error_rate_percent}%</div>
-        <div class='card'><span class='title'>Top Modules:</span> ${data.top_3_modules.map(m => m[0]).join(", ")}</div>
-        <div class='card'><span class='title'>Top Errors:</span> ${data.top_3_errors.map(e => e[0]).join(", ")}</div>
-        <div class='card'><span class='title'>Avg Response Time:</span> ${data.avg_response_time_ms} ms</div>
-        <div class='card'><span class='title'>Slow Requests:</span> ${data.slow_requests}</div>
+        ${createCard("Total Logs", data.total_logs)}
+        ${createCard("Info Logs", data.INFO)}
+        ${createCard("Warnings", data.WARNING)}
+        ${createCard("Errors", data.ERROR)}
+        ${createCard("Error Rate (%)", data.error_rate_percent)}
+        ${createCard("Top Modules", data.top_3_modules.map(x => x[0]).join(", "))}
+        ${createCard("Top Errors", data.top_3_errors.map(x => x[0]).join(", "))}
+        ${createCard("Avg Response Time (ms)", data.avg_response_time_ms)}
+        ${createCard("Slow Requests", data.slow_requests)}
+    `;
+}
+
+function createCard(title, value) {
+    return `
+        <div class="card">
+            <div class="title">${title}</div>
+            <div class="value">${value}</div>
+        </div>
     `;
 }
 

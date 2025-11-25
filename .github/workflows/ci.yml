@@ -25,5 +25,5 @@ jobs:
     - name: Upload summary.json artifact
       uses: actions/upload-artifact@v4
       with:
-      name: log-summary
-      path: summary.json
+        name: log-summary
+        path: summary.json

@@ -1,38 +1,38 @@
 {
-    "total_logs": 500,
-    "INFO": 319,
-    "WARNING": 76,
-    "ERROR": 105,
-    "error_rate_percent": 21.0,
+    "total_logs": 999,
+    "INFO": 617,
+    "WARNING": 175,
+    "ERROR": 207,
+    "error_rate_percent": 20.72,
     "top_3_errors": [
         [
-            "Permission denied",
-            20
-        ],
-        [
             "DB connection failed",
-            20
+            41
         ],
         [
             "Server crashed",
-            19
+            37
+        ],
+        [
+            "Unexpected token in JSON",
+            36
         ]
     ],
     "top_3_modules": [
         [
-            "CACHE",
-            103
-        ],
-        [
-            "PAYMENTS",
-            85
-        ],
-        [
             "AUTH",
-            85
+            186
+        ],
+        [
+            "CACHE",
+            176
+        ],
+        [
+            "API",
+            168
         ]
     ],
-    "avg_response_time_ms": 2516.8,
-    "slow_requests": 302,
-    "top_error": "Permission denied"
+    "avg_response_time_ms": 2560.96,
+    "slow_requests": 618,
+    "top_error": "DB connection failed"
 }

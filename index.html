@@ -49,7 +49,7 @@
 
 <script>
 async function loadSummary() {
-    const res = await fetch("summary.json");
+    const res = await fetch("summary.json?v=" + Date.now());
     const data = await res.json();
 
     document.getElementById("dashboard").innerHTML = `

@@ -1,75 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Log Analysis Dashboard</title>
-    <style>
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            margin: 40px;
-            background: #0d1117;
-            color: #f0f6fc;
-        }
-        h1 {
-            margin-bottom: 20px;
-            color: #58a6ff;
-        }
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: #161b22;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 0 12px rgba(88, 166, 255, 0.15);
-            border: 1px solid #30363d;
-            transition: 0.2s;
-        }
-        .card:hover {
-            box-shadow: 0 0 15px rgba(88, 166, 255, 0.35);
-            transform: scale(1.02);
-        }
-        .title {
-            font-weight: bold;
-            color: #8b949e;
-        }
-        .value {
-            font-size: 1.4rem;
-            margin-top: 5px;
-            color: #c9d1d9;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>DevOps Log Analytics Dashboard</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    body {
+        margin: 0;
+        padding: 30px;
+        font-family: "Inter", sans-serif;
+        background: #0A0F18;
+        color: #E2E8F0;
+    }
+
+    h1 {
+        font-size: 34px;
+        color: #60A5FA;
+        margin-bottom: 5px;
+    }
+    p.subtitle {
+        margin-top: 0;
+        opacity: .7;
+    }
+
+    /* GRID */
+    .grid {
+        margin-top: 25px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 22px;
+    }
+
+    /* METRIC CARDS */
+    .card {
+        padding: 22px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: 0.25s ease;
+    }
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(59,130,246,0.25);
+    }
+    .metric-title {
+        font-size: 14px;
+        opacity: 0.7;
+    }
+    .metric-value {
+        margin-top: 4px;
+        font-size: 28px;
+        font-weight: 600;
+    }
+
+    /* SECTION HEADERS */
+    .section-title {
+        margin-top: 50px;
+        margin-bottom: 10px;
+        font-size: 22px;
+        font-weight: 600;
+        color: #93C5FD;
+    }
+
+    /* CHART CARDS */
+    .chart-card {
+        background: rgba(255,255,255, 0.04);
+        padding: 25px;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+</style>
 </head>
+
 <body>
 
-<h1>📊 Log Analysis Dashboard</h1>
+<h1>🌙 DevOps Log Analytics Dashboard</h1>
+<p class="subtitle">Live metrics generated from CI pipeline</p>
 
-<div id="dashboard" class="container">Loading...</div>
+<!-- METRICS -->
+<div id="metrics" class="grid"></div>
+
+<!-- CHART SECTION -->
+<div class="section-title">Visual Analytics</div>
+
+<div class="grid">
+    <div class="chart-card">
+        <h3>Log Level Distribution</h3>
+        <canvas id="levelChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+        <h3>Top 3 Modules</h3>
+        <canvas id="moduleChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+        <h3>Error Type Breakdown</h3>
+        <canvas id="errorChart"></canvas>
+    </div>
+</div>
 
 <script>
 async function loadSummary() {
     const res = await fetch("summary.json?v=" + Date.now());
     const data = await res.json();
 
-    document.getElementById("dashboard").innerHTML = `
-        ${createCard("Total Logs", data.total_logs)}
-        ${createCard("Info Logs", data.INFO)}
-        ${createCard("Warnings", data.WARNING)}
-        ${createCard("Errors", data.ERROR)}
-        ${createCard("Error Rate (%)", data.error_rate_percent)}
-        ${createCard("Top Modules", data.top_3_modules.map(x => x[0]).join(", "))}
-        ${createCard("Top Errors", data.top_3_errors.map(x => x[0]).join(", "))}
-        ${createCard("Avg Response Time (ms)", data.avg_response_time_ms)}
-        ${createCard("Slow Requests", data.slow_requests)}
+    /* --------- METRIC CARDS --------- */
+    document.getElementById("metrics").innerHTML = `
+        ${card("Total Logs", data.total_logs)}
+        ${card("Info Logs", data.INFO)}
+        ${card("Warning Logs", data.WARNING)}
+        ${card("Error Logs", data.ERROR)}
+        ${card("Error Rate (%)", data.error_rate_percent)}
+        ${card("Avg Response Time (ms)", data.avg_response_time_ms)}
+        ${card("Slow Requests", data.slow_requests)}
+        ${card("Top Errors", data.top_3_errors.map(e => e[0]).join(", "))}
     `;
+
+    /* --------- CHARTS --------- */
+
+    // BAR CHART - INFO / WARNING / ERROR
+    new Chart(document.getElementById("levelChart"), {
+        type: "bar",
+        data: {
+            labels: ["INFO", "WARNING", "ERROR"],
+            datasets: [{
+                label: "Count",
+                data: [data.INFO, data.WARNING, data.ERROR],
+                backgroundColor: ["#3B82F6", "#FBBF24", "#EF4444"]
+            }]
+        },
+        options: {
+            scales: {
+                x: { ticks: { color: "white" }},
+                y: { ticks: { color: "white" }}
+            },
+            plugins: {
+                legend: { labels: { color: "white" }}
+            }
+        }
+    });
+
+    // PIE CHART - MODULES
+    new Chart(document.getElementById("moduleChart"), {
+        type: "pie",
+        data: {
+            labels: data.top_3_modules.map(m => m[0]),
+            datasets: [{
+                data: data.top_3_modules.map(m => m[1]),
+                backgroundColor: ["#3B82F6", "#10B981", "#F59E0B"]
+            }]
+        }
+    });
+
+    // DOUGHNUT - ERRORS
+    new Chart(document.getElementById("errorChart"), {
+        type: "doughnut",
+        data: {
+            labels: data.top_3_errors.map(m => m[0]),
+            datasets: [{
+                data: data.top_3_errors.map(m => m[1]),
+                backgroundColor: ["#EF4444", "#DC2626", "#B91C1C"]
+            }]
+        }
+    });
 }
 
-function createCard(title, value) {
+// Card generator (clean)
+function card(title, value) {
     return `
         <div class="card">
-            <div class="title">${title}</div>
-            <div class="value">${value}</div>
+            <div class="metric-title">${title}</div>
+            <div class="metric-value">${value}</div>
         </div>
     `;
 }

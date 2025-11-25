@@ -1,38 +1,38 @@
 {
-    "total_logs": 2499,
-    "INFO": 1525,
-    "WARNING": 484,
-    "ERROR": 490,
-    "error_rate_percent": 19.61,
+    "total_logs": 2999,
+    "INFO": 1825,
+    "WARNING": 591,
+    "ERROR": 583,
+    "error_rate_percent": 19.44,
     "top_3_errors": [
         [
-            "DB connection failed",
-            89
-        ],
-        [
             "Null pointer exception",
-            85
+            109
         ],
         [
-            "Permission denied",
-            84
+            "Unexpected token in JSON",
+            101
+        ],
+        [
+            "DB connection failed",
+            96
         ]
     ],
     "top_3_modules": [
         [
             "AUTH",
-            446
-        ],
-        [
-            "CACHE",
-            424
+            521
         ],
         [
             "NETWORK",
-            411
+            503
+        ],
+        [
+            "CACHE",
+            503
         ]
     ],
-    "avg_response_time_ms": 2543.23,
-    "slow_requests": 1545,
-    "top_error": "DB connection failed"
+    "avg_response_time_ms": 2535.54,
+    "slow_requests": 1846,
+    "top_error": "Null pointer exception"
 }

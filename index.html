@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log Analysis Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f4f4f4;
+        }
+        h1 { margin-bottom: 20px; }
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .title { font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h1>📊 Log Analysis Dashboard</h1>
+
+<div id="dashboard">Loading...</div>
+
+<script>
+async function loadSummary() {
+    const res = await fetch("summary.json");
+    const data = await res.json();
+
+    document.getElementById("dashboard").innerHTML = `
+        <div class='card'><span class='title'>Total Logs:</span> ${data.total_logs}</div>
+        <div class='card'><span class='title'>Info:</span> ${data.INFO}</div>
+        <div class='card'><span class='title'>Warnings:</span> ${data.WARNING}</div>
+        <div class='card'><span class='title'>Errors:</span> ${data.ERROR}</div>
+        <div class='card'><span class='title'>Error Rate:</span> ${data.error_rate_percent}%</div>
+        <div class='card'><span class='title'>Top Modules:</span> ${data.top_3_modules.map(m => m[0]).join(", ")}</div>
+        <div class='card'><span class='title'>Top Errors:</span> ${data.top_3_errors.map(e => e[0]).join(", ")}</div>
+        <div class='card'><span class='title'>Avg Response Time:</span> ${data.avg_response_time_ms} ms</div>
+        <div class='card'><span class='title'>Slow Requests:</span> ${data.slow_requests}</div>
+    `;
+}
+
+loadSummary();
+</script>
+
+</body>
+</html>

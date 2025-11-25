@@ -1,38 +1,38 @@
 {
-    "total_logs": 1999,
-    "INFO": 1229,
-    "WARNING": 385,
-    "ERROR": 385,
-    "error_rate_percent": 19.26,
+    "total_logs": 2499,
+    "INFO": 1525,
+    "WARNING": 484,
+    "ERROR": 490,
+    "error_rate_percent": 19.61,
     "top_3_errors": [
         [
             "DB connection failed",
-            75
+            89
+        ],
+        [
+            "Null pointer exception",
+            85
         ],
         [
             "Permission denied",
-            65
-        ],
-        [
-            "Server crashed",
-            64
+            84
         ]
     ],
     "top_3_modules": [
         [
             "AUTH",
-            370
+            446
         ],
         [
             "CACHE",
-            338
+            424
         ],
         [
-            "DB",
-            332
+            "NETWORK",
+            411
         ]
     ],
-    "avg_response_time_ms": 2550.81,
-    "slow_requests": 1237,
+    "avg_response_time_ms": 2543.23,
+    "slow_requests": 1545,
     "top_error": "DB connection failed"
 }

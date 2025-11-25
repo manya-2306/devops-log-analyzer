@@ -1,0 +1,29 @@
+name: Log Analyzer CI
+
+on:
+  push:
+    paths:
+      - "application.log"
+      - "analyzer.py"
+
+jobs:
+  analyze_logs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Run analyzer
+      run: python analyzer.py
+
+    - name: Upload summary.json as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: log-summary
+        path: summary.json

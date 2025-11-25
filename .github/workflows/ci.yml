@@ -21,9 +21,9 @@ jobs:
 
     - name: Run analyzer
       run: python analyzer.py
-
-    - name: Upload summary.json as artifact
-      uses: actions/upload-artifact@v3
+      
+    - name: Upload summary.json artifact
+      uses: actions/upload-artifact@v4
       with:
-        name: log-summary
-        path: summary.json
+      name: log-summary
+      path: summary.json

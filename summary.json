@@ -1,0 +1,38 @@
+{
+    "total_logs": 500,
+    "INFO": 287,
+    "WARNING": 112,
+    "ERROR": 101,
+    "error_rate_percent": 20.2,
+    "top_3_errors": [
+        [
+            "Server crashed",
+            22
+        ],
+        [
+            "Permission denied",
+            19
+        ],
+        [
+            "Timeout occurred",
+            18
+        ]
+    ],
+    "top_3_modules": [
+        [
+            "NETWORK",
+            90
+        ],
+        [
+            "AUTH",
+            88
+        ],
+        [
+            "CACHE",
+            84
+        ]
+    ],
+    "avg_response_time_ms": 2567.51,
+    "slow_requests": 313,
+    "top_error": "Server crashed"
+}
